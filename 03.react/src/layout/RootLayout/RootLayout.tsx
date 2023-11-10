@@ -14,6 +14,8 @@ export const RootLayout = (): JSX.Element => {
         onClick={() => console.log("버튼 테스트")}
       ></Button>
       <Link path={"/Regist"}>링크 테스트</Link>
+      <Link path={"/TodoInfo"}>Info 페이지</Link>
+      <Link path={"/TodoList"}>목록 페이지</Link>
     </div>
   );
 };
