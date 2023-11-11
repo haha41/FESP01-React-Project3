@@ -4,6 +4,9 @@
 import { useEffect, useState } from "react";
 import instance from "./api/instance";
 import styles from "./pages/TodoList/TodoList.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
   const [data, setData] = useState<{ items: TodoItem[] | undefined }>();
@@ -78,15 +81,14 @@ function App() {
                     href=""
                     onClick={handleTodoEdit}
                   >
-                    {/* <i className={styles.far}>수정</i> */}
-                    <i className="far, fa-pen-to-square">수정</i>
+                    <FontAwesomeIcon icon={faPenToSquare} />
                   </a>
                   <button
                     title="삭제"
                     className={styles.deleteBtn}
                     onClick={handleTodoDelete}
                   >
-                    <i className={styles.far}>삭제</i>
+                    <FontAwesomeIcon icon={faTrashCan} />
                   </button>
                 </div>
               </li>
@@ -94,7 +96,7 @@ function App() {
           })}
         </ul>
         <a href="" className={styles.registBtn} title="할일등록">
-          <i className={styles.far}>등록</i>
+          <FontAwesomeIcon icon={faPlus} />
         </a>
       </div>
     </>
