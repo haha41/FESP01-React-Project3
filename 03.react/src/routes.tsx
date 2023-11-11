@@ -8,6 +8,7 @@ import { Regist } from "./pages/Regist/Regist";
 import { List } from "./pages/List/List";
 import { Update } from "./pages/Update/Update";
 import { TodoInfo } from "./pages/TodoInfo/TodoInfo";
+import NotFound from "./pages/error/NotFound";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -16,6 +17,7 @@ export const router = createBrowserRouter(
       <Route path="regist" element={<Regist />} />
       <Route path="update/:todoId" element={<Update />} />
       <Route path="todoInfo/:todoId" element={<TodoInfo />} />
+      <Route path="*" element={<NotFound />} />
     </Route>
   )
 );
