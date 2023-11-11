@@ -74,7 +74,7 @@ export const List = () => {
                     checked={item.done}
                   />
                   <Link
-                    to="/todoInfo/:todoId"
+                    to={`/todoInfo/${item._id}`}
                     className={
                       item.done ? styles.doneItemLink : styles.undoItemLink
                     }
@@ -83,7 +83,7 @@ export const List = () => {
                   </Link>
                 </div>
                 <div className={styles.todoActionWrapper}>
-                  <Link to="/update/:todoId" className="">
+                  <Link to={`/update/${item._id}`}>
                     <FontAwesomeIcon icon={faPenToSquare} />
                   </Link>
                   <button
@@ -98,7 +98,7 @@ export const List = () => {
             );
           })}
         </ul>
-        <Link to="/regist" className="registBtn">
+        <Link to="/regist" className={styles.registBtn}>
           <FontAwesomeIcon icon={faPlus} />
         </Link>
       </div>
