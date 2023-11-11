@@ -1,0 +1,10 @@
+.title {
+  margin: 0 auto;
+  white-space: nowrap;
+  border: 1px solid pink;
+  /* border-bottom: 1px solid #99ccff; */
+  text-align: center;
+  width: 300px;
+  font-size: 30px;
+  padding: 20px 0;
+}

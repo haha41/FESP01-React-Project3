@@ -3,7 +3,6 @@
 .button {
   border: none;
   outline: none;
-  /* all: unset; */
   width: 70px;
   height: 40px;
   color: white;
@@ -20,12 +19,10 @@
   outline: none;
 }
 
-/* 아래로는 불러온 스타일 */
-
 .buttonRegist {
-  /* font-weight: var(--font-semibold); */
-  width: 93px;
-  height: 41px;
+  font-weight: 700;
+  width: 60px;
+  height: 40px;
 }
 
 .buttonTrash {

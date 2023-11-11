@@ -1,20 +1,29 @@
 import { useId } from "react";
-import S from "./Input.module.css";
+import styles from "./Input.module.css";
 
-export const Input = ({
-  label,
-}: // ref,
-{
+interface InputProps {
   label: string;
-  // ref: React.RefObject<HTMLInputElement>;
-}) => {
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+export const Input: React.FC<InputProps> = ({
+  label,
+  value,
+  onChange,
+}: InputProps) => {
   const id = useId();
   return (
     <>
-      <label htmlFor={id} className={S.inputLabel}>
+      <label htmlFor={id} className={styles.inputLabel}>
         {label}
       </label>
-      <input type="text" name="" id={id} className={S.inputField} />
+      <input
+        type="text"
+        id={id}
+        className={styles.inputField}
+        value={value}
+        onChange={onChange}
+      />
     </>
   );
 };
