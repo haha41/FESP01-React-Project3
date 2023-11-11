@@ -7,7 +7,6 @@ import { RootLayout } from "./layout/RootLayout/RootLayout";
 import { Regist } from "./pages/Regist/Regist";
 import { List } from "./pages/List/List";
 import { Update } from "./pages/Update/Update";
-import TodoList from "./pages/TodoList/TodoList";
 import { TodoInfo } from "./pages/TodoInfo/TodoInfo";
 
 export const router = createBrowserRouter(
@@ -16,8 +15,7 @@ export const router = createBrowserRouter(
       <Route index element={<List />} />
       <Route path="regist" element={<Regist />} />
       <Route path="update/:todoId" element={<Update />} />
-      <Route path="todolist" element={<TodoList />} />
-      <Route path="todoInfo" element={<TodoInfo />} />
+      <Route path="todoInfo/:todoId" element={<TodoInfo />} />
     </Route>
   )
 );

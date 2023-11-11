@@ -55,19 +55,11 @@
   font-family: inherit;
 }
 
-.deleteBtn i {
-  font-size: 20px;
-}
-
 .registBtn {
   color: #000;
   position: absolute;
   top: -40px;
   right: 0;
-}
-
-.registBtn i {
-  font-size: 40px;
 }
 
 input[type="checkbox"] {
