@@ -3,9 +3,11 @@ import Button from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
 import { Header } from "@/layout/Header/Header";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import styles from "./Update.module.css";
 
 export const Update = () => {
+  const { todoId } = useParams();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -18,7 +20,7 @@ export const Update = () => {
   };
   const handleSubmit = () => {
     instance
-      .patch("", {
+      .patch(`/${todoId}`, {
         title: title,
         content: content,
       })
@@ -30,9 +32,9 @@ export const Update = () => {
       });
   };
   return (
-    <div className={`${styles.registPage}`}>
+    <div className={`${styles.updatePage}`}>
       <Header>TODO App 수정</Header>
-      <div className={styles.registContainer}>
+      <div className={styles.updateContainer}>
         <Input label="제목:" value={title} onChange={handleTitleChange} />
         <Input label="내용:" value={content} onChange={handleContentChange} />
         <Button option="regist" label="수정" onClick={handleSubmit} />

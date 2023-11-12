@@ -1,5 +1,9 @@
 import instance from "@/api/instance";
 import { Header } from "@/layout/Header/Header";
+import styles from "@/pages/List/List.module.css";
+import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "@/pages/List/List.module.css";
@@ -57,7 +61,7 @@ export const List = () => {
     };
     deleteItem();
   };
-
+  console.log(data?.items);
   return (
     <div>
       <Header>TODO App</Header>
@@ -74,7 +78,7 @@ export const List = () => {
                     checked={item.done}
                   />
                   <Link
-                    to={`/todoInfo/${item._id}`}
+                    to={`/info/${item._id}`}
                     className={
                       item.done ? styles.doneItemLink : styles.undoItemLink
                     }
@@ -84,14 +88,20 @@ export const List = () => {
                 </div>
                 <div className={styles.todoActionWrapper}>
                   <Link to={`/update/${item._id}`}>
-                    <FontAwesomeIcon icon={faPenToSquare} />
+                    <FontAwesomeIcon
+                      style={{ color: "black" }}
+                      icon={faPenToSquare}
+                    />
                   </Link>
                   <button
                     title="삭제"
                     className={styles.deleteBtn}
                     onClick={() => handleTodoDelete(item._id)}
                   >
-                    <FontAwesomeIcon icon={faTrashCan} />
+                    <FontAwesomeIcon
+                      style={{ color: "black" }}
+                      icon={faTrashCan}
+                    />
                   </button>
                 </div>
               </li>
@@ -99,7 +109,7 @@ export const List = () => {
           })}
         </ul>
         <Link to="/regist" className={styles.registBtn}>
-          <FontAwesomeIcon icon={faPlus} />
+          <FontAwesomeIcon style={{ color: "black" }} icon={faPlus} />
         </Link>
       </div>
     </div>
