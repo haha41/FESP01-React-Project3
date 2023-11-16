@@ -56,7 +56,7 @@ export const List = () => {
     };
     deleteItem();
   };
-  console.log(data?.items);
+  // console.log(data?.items);
   return (
     <div>
       <Header>TODO App</Header>
