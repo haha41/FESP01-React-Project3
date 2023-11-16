@@ -9,9 +9,11 @@ import { Link } from "react-router-dom";
 
 export const List = () => {
   const [data, setData] = useState<{ items: TodoItem[] | undefined }>(); // data는 객체 형태로, items라는 속성을 갖는다.
+
   const [filteredData, setFilteredData] = useState<{
     items: TodoItem[] | undefined;
   }>();
+
   const [searchInput, setSearchInput] = useState<string>(""); // searchInput의 타입은 string
 
   async function fetchData() {
@@ -28,6 +30,11 @@ export const List = () => {
   useEffect(() => {
     fetchData().then((fetchedData) => setFilteredData(fetchedData)); // 초기 로딩시에 filteredData가 undefined 상태가 되어 렌더링에서 문제가 생기는 것을 방지
   }, []);
+
+  // 삭제 후 렌더링 되도록
+  useEffect(() => {
+    setFilteredData(data);
+  }, [data]);
 
   const handleCheckTodo = function (id: number, done: boolean) {
     setFilteredData((prevData) => {
@@ -118,21 +125,24 @@ export const List = () => {
     e.preventDefault();
 
     if (data?.items) {
-      const searchedItems = data.items.filter((item) =>
-        item.title.toLowerCase().includes(searchInput)
+      const searchedItems = data.items.filter(
+        (item) =>
+          item.title.toLowerCase().includes(searchInput) ||
+          item.content?.toLowerCase().includes(searchInput)
+        // (item.content ?? "")?.toLowerCase().includes(searchInput)
       );
+      console.log("searchedItems : ", searchedItems);
 
       if (searchedItems.length > 0) {
-        console.log("검색 되었습니다.");
         setFilteredData({ items: searchedItems });
       } else {
-        console.log("검색 결과가 없습니다.");
+        // 조건이 false 일 때 (검색어가 일치하는 항목이 없을 때)
         setFilteredData({ items: [] });
-      } // 조건이 false 일 때 (검색어가 일치하는 항목이 없을 때)
+      }
     } else {
-      console.log("검색 결과가 없습니다.");
+      // 조건이 undefined 일 때 (원본 데이터가 없을 때)
       setFilteredData({ items: [] });
-    } // 조건이 undefined 일 때 (원본 데이터가 없을 때)
+    }
     setSearchInput("");
   };
 
