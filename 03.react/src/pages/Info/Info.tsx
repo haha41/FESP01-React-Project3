@@ -10,8 +10,6 @@ export const Info = () => {
 
   async function fetchData() {
     try {
-      console.log("Fetching data for todoId:", todoId); // 추가
-
       const response = await instance.get<TodoResponse>(`/${todoId}`);
       setData(response.data);
       return response.data;
@@ -22,19 +20,16 @@ export const Info = () => {
 
   useEffect(() => {
     fetchData();
-    console.log("Effect executed for todoId:", todoId); // 추가
   }, [todoId]);
 
   const todoData = {
     title: data?.item?.title,
     content: data?.item?.content,
     done: data?.item?.done, // 널 병합 연산자 : 왼쪽이 null 또는 undefined일 때 오른쪽을 반환
-    // done: data?.item?.done ?? false, // 널 병합 연산자 : 왼쪽이 null 또는 undefined일 때 오른쪽을 반환
     createdAt: data?.item?.createdAt,
     updatedAt: data?.item?.updatedAt,
   };
   const doneCheck = (done: boolean | undefined) => {
-    console.log("done value:", done); // 추가
     return done === false ? "미완료" : "완료";
   };
   return (

@@ -8,8 +8,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export const List = () => {
-  const [data, setData] = useState<{ items: TodoItem[] | undefined }>();
-  console.log("data: ", data);
+  const [data, setData] = useState<{ items: TodoItem[] | undefined }>(); // data는 객체 형태로, items라는 속성을 갖는다.
+  const [filteredData, setFilteredData] = useState<{
+    items: TodoItem[] | undefined;
+  }>();
+
+  const [searchInput, setSearchInput] = useState<string>(""); // string은 searchInput의 타입
 
   async function fetchData() {
     try {
@@ -23,15 +27,13 @@ export const List = () => {
   }
 
   useEffect(() => {
-    fetchData();
+    fetchData().then((fetchedData) => setFilteredData(fetchedData)); // 초기 로딩시에 filteredData가 undefined 상태가 되어 렌더링에서 문제가 생기는 것을 방지
   }, []);
 
   const handleCheckTodo = function (id: number, done: boolean) {
     setData((prevData) => {
       const updatedItems = prevData?.items?.map((item) => {
         if (item._id === id) {
-          console.log("Toggling done status for item:", item);
-
           return {
             ...item,
             done: !item.done,
@@ -39,7 +41,6 @@ export const List = () => {
         }
         return item;
       });
-      console.log("Updated items:", updatedItems);
       updateCheckTodo(id, done); // 업데이트된 done 값을 전달
       return { ...prevData, items: updatedItems };
     });
@@ -50,7 +51,6 @@ export const List = () => {
       .patch(`/${todoId}`, {
         done: !done,
       })
-
       .catch((error) => {
         console.error(error);
       });
@@ -72,14 +72,53 @@ export const List = () => {
     };
     deleteItem();
   };
-  // console.log(data?.items);
+
+  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+    console.log("e.target.value: ", e.target.value);
+  };
+
+  const handleShowAll = () => {
+    setFilteredData(data);
+  };
+
+  const handleShowTrue = () => {
+    const completedItems = data?.items?.filter((item) => item.done);
+    setFilteredData({ items: completedItems || [] });
+  };
+
+  const handleShowFalse = () => {
+    const incompletedItems = data?.items?.filter((item) => item.done === false);
+    setFilteredData({ items: incompletedItems || [] });
+  };
+
+  const handleShowLatest = () => {
+    console.log("최신순");
+  };
+
+  const handleShowPast = () => {
+    console.log("과거순");
+  };
+
   return (
     <div>
       <Header>TODO App</Header>
 
+      <button onClick={handleShowAll}>전체</button>
+      <button onClick={handleShowTrue}>완료</button>
+      <button onClick={handleShowFalse}>미완료</button>
+      <button onClick={handleShowLatest}>오름차순</button>
+      <button onClick={handleShowPast}>내림차순</button>
       <div id={styles.content}>
+        <input
+          type="text"
+          placeholder="검색어를 입력하세요"
+          value={searchInput}
+          onChange={handleSearchInput}
+        ></input>
+        <button>검색</button>
         <ul className={styles.todoList}>
-          {data?.items?.map((item, i) => {
+          {filteredData?.items?.map((item, i) => {
             return (
               <li key={`${item._id}-${i}`} className={styles.todoListItem}>
                 <div className={styles.itemWrapper}>
