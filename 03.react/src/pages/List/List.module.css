@@ -30,6 +30,12 @@ input[type="checkbox"] {
   max-width: 600px;
   margin: 0 auto;
 }
+
+.buttonWrapper {
+  display: flex;
+  gap: 6px;
+}
+
 .todoList {
   margin: 0 auto;
   border-radius: 30px;
@@ -41,23 +47,27 @@ input[type="checkbox"] {
   font-size: 20px;
   max-width: 600px;
 }
+
 .todoListItem {
   border-bottom: 1px solid #000;
   display: flex;
   justify-content: space-between;
 }
+
 .doneItemLink {
   text-decoration: line-through;
   color: black;
   padding: 5px 10px;
   margin-right: 10px;
 }
+
 .undoItemLink {
   color: black;
   text-decoration: none;
   padding: 5px 10px;
   margin-right: 10px;
 }
+
 .undoItemLink:hover {
   color: white;
   border: 1px transparent;

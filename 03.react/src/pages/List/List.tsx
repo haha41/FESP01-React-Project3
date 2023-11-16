@@ -112,31 +112,49 @@ export const List = () => {
 
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value.toLowerCase());
-    console.log("e.target.value: ", e.target.value);
   };
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleShowSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("검색");
+
+    if (data?.items) {
+      const searchedItems = data.items.filter((item) =>
+        item.title.toLowerCase().includes(searchInput)
+      );
+
+      if (searchedItems.length > 0) {
+        console.log("검색 되었습니다.");
+        setFilteredData({ items: searchedItems });
+      } else {
+        console.log("검색 결과가 없습니다.");
+        setFilteredData({ items: [] });
+      } // 조건이 false 일 때 (검색어가 일치하는 항목이 없을 때)
+    } else {
+      console.log("검색 결과가 없습니다.");
+      setFilteredData({ items: [] });
+    } // 조건이 undefined 일 때 (원본 데이터가 없을 때)
+    setSearchInput("");
   };
 
   return (
     <div>
       <Header>TODO App</Header>
       <div id={styles.content}>
-        <button onClick={handleShowAll}>전체</button>
-        <button onClick={handleShowTrue}>완료</button>
-        <button onClick={handleShowFalse}>미완료</button>
-        <button onClick={handleShowLatest}>최신순</button>
-        <button onClick={handleShowPast}>과거순</button>
-        <form>
+        <div className={styles.buttonWrapper}>
+          <button onClick={handleShowAll}>전체</button>
+          <button onClick={handleShowTrue}>완료</button>
+          <button onClick={handleShowFalse}>미완료</button>
+          <button onClick={handleShowLatest}>최신순</button>
+          <button onClick={handleShowPast}>과거순</button>
+        </div>
+        <form onSubmit={handleShowSearch}>
           <input
             type="text"
             placeholder="검색어를 입력하세요"
             value={searchInput}
             onChange={handleSearchInput}
           ></input>
-          <button onClick={handleSearch}>검색</button>
+          <button type="submit">검색</button>
         </form>
         <ul className={styles.todoList}>
           {filteredData?.items?.map((item, i) => {
