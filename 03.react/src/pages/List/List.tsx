@@ -12,8 +12,7 @@ export const List = () => {
   const [filteredData, setFilteredData] = useState<{
     items: TodoItem[] | undefined;
   }>();
-
-  const [searchInput, setSearchInput] = useState<string>(""); // string은 searchInput의 타입
+  const [searchInput, setSearchInput] = useState<string>(""); // searchInput의 타입은 string
 
   async function fetchData() {
     try {
@@ -31,7 +30,7 @@ export const List = () => {
   }, []);
 
   const handleCheckTodo = function (id: number, done: boolean) {
-    setData((prevData) => {
+    setFilteredData((prevData) => {
       const updatedItems = prevData?.items?.map((item) => {
         if (item._id === id) {
           return {
@@ -73,11 +72,6 @@ export const List = () => {
     deleteItem();
   };
 
-  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value);
-    console.log("e.target.value: ", e.target.value);
-  };
-
   const handleShowAll = () => {
     setFilteredData(data);
   };
@@ -93,30 +87,57 @@ export const List = () => {
   };
 
   const handleShowLatest = () => {
-    console.log("최신순");
+    if (data?.items) {
+      const latestItems = [...data.items].sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+      setFilteredData({ items: latestItems });
+    } else {
+      setFilteredData({ items: [] });
+    }
   };
 
   const handleShowPast = () => {
-    console.log("과거순");
+    if (data?.items) {
+      const latestItems = [...data.items].sort(
+        (a, b) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      );
+      setFilteredData({ items: latestItems });
+    } else {
+      setFilteredData({ items: [] });
+    }
+  };
+
+  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value.toLowerCase());
+    console.log("e.target.value: ", e.target.value);
+  };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    console.log("검색");
   };
 
   return (
     <div>
       <Header>TODO App</Header>
-
-      <button onClick={handleShowAll}>전체</button>
-      <button onClick={handleShowTrue}>완료</button>
-      <button onClick={handleShowFalse}>미완료</button>
-      <button onClick={handleShowLatest}>오름차순</button>
-      <button onClick={handleShowPast}>내림차순</button>
       <div id={styles.content}>
-        <input
-          type="text"
-          placeholder="검색어를 입력하세요"
-          value={searchInput}
-          onChange={handleSearchInput}
-        ></input>
-        <button>검색</button>
+        <button onClick={handleShowAll}>전체</button>
+        <button onClick={handleShowTrue}>완료</button>
+        <button onClick={handleShowFalse}>미완료</button>
+        <button onClick={handleShowLatest}>최신순</button>
+        <button onClick={handleShowPast}>과거순</button>
+        <form>
+          <input
+            type="text"
+            placeholder="검색어를 입력하세요"
+            value={searchInput}
+            onChange={handleSearchInput}
+          ></input>
+          <button onClick={handleSearch}>검색</button>
+        </form>
         <ul className={styles.todoList}>
           {filteredData?.items?.map((item, i) => {
             return (
