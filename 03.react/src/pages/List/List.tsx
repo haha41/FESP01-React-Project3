@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 
 export const List = () => {
   const [data, setData] = useState<{ items: TodoItem[] | undefined }>();
+  console.log("data: ", data);
 
   async function fetchData() {
     try {
@@ -25,10 +26,12 @@ export const List = () => {
     fetchData();
   }, []);
 
-  const handleCheckTodo = function (id: number) {
+  const handleCheckTodo = function (id: number, done: boolean) {
     setData((prevData) => {
       const updatedItems = prevData?.items?.map((item) => {
         if (item._id === id) {
+          console.log("Toggling done status for item:", item);
+
           return {
             ...item,
             done: !item.done,
@@ -36,8 +39,21 @@ export const List = () => {
         }
         return item;
       });
+      console.log("Updated items:", updatedItems);
+      updateCheckTodo(id, done); // 업데이트된 done 값을 전달
       return { ...prevData, items: updatedItems };
     });
+  };
+
+  const updateCheckTodo = (todoId: number, done: boolean) => {
+    instance
+      .patch(`/${todoId}`, {
+        done: !done,
+      })
+
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const handleTodoDelete = function (id: number) {
@@ -69,7 +85,7 @@ export const List = () => {
                 <div className={styles.itemWrapper}>
                   <input
                     type="checkbox"
-                    onChange={() => handleCheckTodo(item._id)}
+                    onChange={() => handleCheckTodo(item._id, item.done)}
                     checked={item.done}
                   />
                   <Link
