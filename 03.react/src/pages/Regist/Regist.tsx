@@ -4,6 +4,7 @@ import styles from "./Regist.module.css";
 import { Input } from "@/components/Input/Input";
 import { useState } from "react";
 import instance from "@/api/instance";
+import { Link } from "react-router-dom";
 
 export const Regist = () => {
   const [title, setTitle] = useState("");
@@ -33,6 +34,9 @@ export const Regist = () => {
 
   return (
     <div className={`${styles.registPage}`}>
+      <Link to="/" className={styles.backBtn}>
+        &lt;
+      </Link>
       <Header>TODO App 등록</Header>
       <div className={styles.registContainer}>
         <Input label="제목:" value={title} onChange={handleTitleChange} />

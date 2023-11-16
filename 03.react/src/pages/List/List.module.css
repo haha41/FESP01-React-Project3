@@ -68,6 +68,19 @@ input[type="checkbox"] {
   width: 15px;
 }
 
-.customIcon {
-  color: #000;
+.backBtn {
+  display: block;
+  text-decoration: none;
+  color: black;
+  font-size: xx-large;
+  position: absolute;
+}
+body {
+  background: #fffeeb;
+  min-width: 390px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }

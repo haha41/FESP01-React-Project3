@@ -19,5 +19,8 @@
   line-height: 50px;
 }
 .backBtn {
-  margin-right: 100px;
+  display: block;
+  text-decoration: none;
+  color: black;
+  font-size: xx-large;
 }

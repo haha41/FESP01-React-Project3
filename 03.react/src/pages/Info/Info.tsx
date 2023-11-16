@@ -22,21 +22,45 @@ export const Info = () => {
     fetchData();
   }, []);
 
-  console.log(data);
+  const todoData = {
+    title: data?.item?.title,
+    content: data?.item?.content,
+    done: data?.item?.done,
+    createdAt: data?.item?.createdAt,
+    updatedAt: data?.item?.updatedAt,
+  };
+  const doneCheck = (i: boolean | undefined) => {
+    return i === false ? "미완료" : "완료";
+  };
   return (
     <div id="page" className={styles.todoInfoWrapper}>
-      <Link to="/" className="backBtn">
+      <Link to="/" className={styles.backBtn}>
         &lt;
       </Link>
       <Header>TODO App 상세 조회</Header>
       <div className={styles.contentWrapper}>
         <ul className={styles.todoListWrapper}>
-          {data?.item &&
+          {/* {data?.item &&
             Object.entries(data.item).map(([key, value]) => (
               <li key={key}>
                 <div>{`${key}: ${value}`}</div>
               </li>
-            ))}
+            ))} */}
+          <li>
+            <div>제목: {todoData.title}</div>
+          </li>
+          <li>
+            <div>내용: {todoData.content}</div>
+          </li>
+          <li>
+            <div>완료여부: {doneCheck(todoData.done)}</div>
+          </li>
+          <li>
+            <div>등록일: {todoData.createdAt}</div>
+          </li>
+          <li>
+            <div>수정일: {todoData.updatedAt}</div>
+          </li>
         </ul>
       </div>
     </div>

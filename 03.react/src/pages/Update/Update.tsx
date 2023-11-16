@@ -3,7 +3,7 @@ import Button from "@/components/Button/Button";
 import { Input } from "@/components/Input/Input";
 import { Header } from "@/layout/Header/Header";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styles from "./Update.module.css";
 
 export const Update = () => {
@@ -33,6 +33,9 @@ export const Update = () => {
   };
   return (
     <div className={`${styles.updatePage}`}>
+      <Link to="/" className={styles.backBtn}>
+        &lt;
+      </Link>
       <Header>TODO App 수정</Header>
       <div className={styles.updateContainer}>
         <Input label="제목:" value={title} onChange={handleTitleChange} />

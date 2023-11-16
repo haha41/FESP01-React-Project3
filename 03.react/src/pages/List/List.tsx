@@ -13,7 +13,6 @@ export const List = () => {
   async function fetchData() {
     try {
       const response = await instance.get<TodoListResponse>("/");
-      // console.log(response.data);
       setData(response.data);
 
       return response.data;
