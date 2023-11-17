@@ -9,17 +9,15 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { filteredDataState } from "@/store/filteredData";
 import { useRecoilState } from "recoil";
+import { dataState } from "@/store/data";
+import { searchInputState } from "@/store/searchInput";
 
 export const List = () => {
-  const [data, setData] = useState<{ items: TodoItem[] | undefined }>(); // data는 객체 형태로, items라는 속성을 갖는다.
-
-  // const [filteredData, setFilteredData] = useRecoilState<{
-  //   items: TodoItem[] | undefined;
-  // }>(filteredDataState);
-
+  // const [data, setData] = useState<{ items: TodoItem[] | undefined }>(); // data는 객체 형태로, items라는 속성을 갖는다.
+  const [data, setData] = useRecoilState(dataState);
   const [filteredData, setFilteredData] = useRecoilState(filteredDataState);
-
-  const [searchInput, setSearchInput] = useState<string>(""); // searchInput의 타입은 string
+  // const [searchInput, setSearchInput] = useState<string>(""); // searchInput의 타입은 string
+  const [searchInput, setSearchInput] = useRecoilState(searchInputState);
 
   // promise.all
   // 1. 한꺼번에 시작하고, 모두 이행되면 값을 사용할 수 있다.
