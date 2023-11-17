@@ -1,11 +1,10 @@
 import instance from "@/api/instance";
-import Button from "@/components/Button/Button";
 import { Header } from "@/layout/Header/Header";
 import styles from "@/pages/List/List.module.css";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { filteredDataState } from "@/store/filteredData";
 import { useRecoilState } from "recoil";
@@ -16,7 +15,6 @@ export const List = () => {
   // const [data, setData] = useState<{ items: TodoItem[] | undefined }>(); // data는 객체 형태로, items라는 속성을 갖는다.
   const [data, setData] = useRecoilState(dataState);
   const [filteredData, setFilteredData] = useRecoilState(filteredDataState);
-  // const [searchInput, setSearchInput] = useState<string>(""); // searchInput의 타입은 string
   const [searchInput, setSearchInput] = useRecoilState(searchInputState);
 
   // promise.all
@@ -207,7 +205,6 @@ export const List = () => {
                       icon={faPenToSquare}
                     />
                   </Link>
-
                   <button
                     title="삭제"
                     className={styles.deleteBtn}
