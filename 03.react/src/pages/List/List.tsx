@@ -1,4 +1,5 @@
 import instance from "@/api/instance";
+import Button from "@/components/Button/Button";
 import { Header } from "@/layout/Header/Header";
 import styles from "@/pages/List/List.module.css";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons";
@@ -6,27 +7,24 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { filteredDataState } from "@/store/filteredData";
+import { useRecoilState } from "recoil";
 
 export const List = () => {
   const [data, setData] = useState<{ items: TodoItem[] | undefined }>(); // data는 객체 형태로, items라는 속성을 갖는다.
 
-  const [filteredData, setFilteredData] = useState<{
-    items: TodoItem[] | undefined;
-  }>();
+  // const [filteredData, setFilteredData] = useRecoilState<{
+  //   items: TodoItem[] | undefined;
+  // }>(filteredDataState);
+
+  const [filteredData, setFilteredData] = useRecoilState(filteredDataState);
 
   const [searchInput, setSearchInput] = useState<string>(""); // searchInput의 타입은 string
 
-  // async function fetchData() {
-  //   try {
-  //     const response = await instance.get<TodoListResponse>("/");
-  //     setData(response.data);
-
-  //     return response.data;
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-
+  // promise.all
+  // 1. 한꺼번에 시작하고, 모두 이행되면 값을 사용할 수 있다.
+  // 2. 배열로 받는다 promise.all([]) → 인자로 받은 프로미스의 배열이 모두 이행될 때까지 기다림
+  // response.data.items.map(async (item) => {...}) : 비동기 함수(async)이므로, 결과는 프로미스임 → map 결과는 프로미스의 배열
   async function fetchData() {
     try {
       const response = await instance.get<TodoListResponse>("/");
@@ -47,12 +45,14 @@ export const List = () => {
   }
 
   useEffect(() => {
-    fetchData().then((fetchedData) => setFilteredData(fetchedData)); // 초기 로딩시에 filteredData가 undefined 상태가 되어 렌더링에서 문제가 생기는 것을 방지
+    fetchData().then((fetchedData) =>
+      setFilteredData(fetchedData as { items: TodoItem[] })
+    ); // 초기 로딩시에 filteredData가 undefined 상태가 되어 렌더링에서 문제가 생기는 것을 방지
   }, []);
 
   // 삭제 후 렌더링 되도록
   useEffect(() => {
-    setFilteredData(data);
+    setFilteredData(data as { items: TodoItem[] });
   }, [data]);
 
   const handleCheckTodo = function (id: number, done: boolean) {
@@ -99,7 +99,7 @@ export const List = () => {
   };
 
   const handleShowAll = () => {
-    setFilteredData(data);
+    setFilteredData(data as { items: TodoItem[] });
   };
 
   const handleShowTrue = () => {
@@ -144,15 +144,11 @@ export const List = () => {
     e.preventDefault();
 
     if (data?.items) {
-      data.items.forEach((item) => console.log("title: ", item.title));
-      data.items.forEach((item) => console.log("content :", item.content));
-
       const searchedItems = data.items.filter(
         (item) =>
           item.title.toLowerCase().includes(searchInput) ||
           item.content?.trim().toLowerCase().includes(searchInput)
       );
-      console.log("searchedItems : ", searchedItems);
 
       if (searchedItems.length > 0) {
         setFilteredData({ items: searchedItems });
@@ -213,6 +209,7 @@ export const List = () => {
                       icon={faPenToSquare}
                     />
                   </Link>
+
                   <button
                     title="삭제"
                     className={styles.deleteBtn}
