@@ -16,12 +16,31 @@ export const List = () => {
 
   const [searchInput, setSearchInput] = useState<string>(""); // searchInput의 타입은 string
 
+  // async function fetchData() {
+  //   try {
+  //     const response = await instance.get<TodoListResponse>("/");
+  //     setData(response.data);
+
+  //     return response.data;
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
+
   async function fetchData() {
     try {
       const response = await instance.get<TodoListResponse>("/");
-      setData(response.data);
+      const itemsWithContent = await Promise.all(
+        response.data.items.map(async (item) => {
+          const detailResponse = await instance.get<TodoResponse>(
+            `/${item._id}`
+          );
+          return { ...item, content: detailResponse.data.item.content };
+        })
+      );
+      setData({ ...response.data, items: itemsWithContent });
 
-      return response.data;
+      return { ...response.data, items: itemsWithContent };
     } catch (error) {
       console.error(error);
     }
@@ -125,11 +144,13 @@ export const List = () => {
     e.preventDefault();
 
     if (data?.items) {
+      data.items.forEach((item) => console.log("title: ", item.title));
+      data.items.forEach((item) => console.log("content :", item.content));
+
       const searchedItems = data.items.filter(
         (item) =>
           item.title.toLowerCase().includes(searchInput) ||
-          item.content?.toLowerCase().includes(searchInput)
-        // (item.content ?? "")?.toLowerCase().includes(searchInput)
+          item.content?.trim().toLowerCase().includes(searchInput)
       );
       console.log("searchedItems : ", searchedItems);
 
